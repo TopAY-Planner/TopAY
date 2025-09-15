@@ -1,0 +1,10 @@
+<launch>
+
+    <arg name="num" default="1" />
+
+    <rosparam command="load" file="$(find planner)/param_auto/all_$(arg num).yaml" />
+
+    <!-- planner -->
+    <node pkg="planner" type="planner_node" name="planner_node_$(arg num)" output="screen" required="true" />
+
+</launch>

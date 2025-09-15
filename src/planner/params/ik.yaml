@@ -1,0 +1,6 @@
+planner_node:
+  ik:
+    eps: 1.0e-2
+    IT_MAX: 10000
+    DT: 0.1
+    damp: 1.0

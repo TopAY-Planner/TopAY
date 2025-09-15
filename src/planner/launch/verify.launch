@@ -1,0 +1,12 @@
+<launch>
+
+    <arg name="path"/>
+
+
+    <!-- planner -->
+    <node pkg="planner" type="verifier" name="verifier_node" output="screen" required="true">
+        <rosparam command="load" file="$(find planner)/params/verify.yaml" />
+        <param name="path" value="$(arg path)" />
+    </node>
+
+</launch>

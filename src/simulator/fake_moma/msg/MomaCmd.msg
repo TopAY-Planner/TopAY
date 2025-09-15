@@ -1,0 +1,6 @@
+float32 speed
+float32 angular_velocity
+bool gripper_state
+std_msgs/Float32MultiArray q
+std_msgs/Float32MultiArray dq
+std_msgs/Float32MultiArray d2q

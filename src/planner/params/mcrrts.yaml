@@ -1,0 +1,12 @@
+planner_node:
+  mcrrts:
+    max_time: 0.2
+    goal_sample_rate: 0.4
+    check_colli_res: 0.01
+  ompls:
+    planner_type: "BiTRRT"
+    plan_time: 1.0
+    # plan_time: 0.1
+    construct_time: 1800.0
+    inter_time: 0.1
+    use_inter: true

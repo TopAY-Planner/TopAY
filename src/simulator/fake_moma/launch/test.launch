@@ -1,0 +1,20 @@
+<launch>
+    <arg name="mpc" default="true"/>
+    <arg name="cmd_topic" value="/moma_cmd" />
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find fake_moma)/launch/default.rviz" required="true" />
+    
+    <node name="interactive_marker_node" pkg="interactive_marker" type="interactive_marker_node" />
+    
+    <node name="fake_moma_node" pkg="fake_moma" type="fake_moma_node" output="screen">
+        <remap from="~global_map" to="/global_map"/>
+        <remap from="~command" to="$(arg cmd_topic)"/>
+    </node>
+    
+    <!-- <node pkg="random_map_generator" type="random_map" name="random_map" output="screen" required="true">
+        <remap from="~global_cloud" to="/global_map"/>
+    </node> -->
+
+    <node if="$(arg mpc)" name="mpc_demo" pkg="fake_moma" type="mpc_demo.py" output="screen" />
+    <node unless="$(arg mpc)" name="keyboard_ctrl" pkg="fake_moma" type="keyboard_ctrl.py" output="screen" />
+</launch>

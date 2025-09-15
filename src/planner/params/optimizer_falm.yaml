@@ -1,0 +1,58 @@
+planner_node:
+  moma_traj_opt:
+    int_K: 12
+    min_piece_num: 3
+    relu_mu: 1.0e-3
+    # relu_mu: 0.01
+    # sample_interval: 0.8
+    sample_interval: 1.5
+    # energy_weights: [0.3, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    energy_weights: [0.3, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    first_stage:
+      time_weight: 20.0
+      moment_weight: 200.0
+      acc_weight: 500.0
+      domega_weight: 500.0
+      path_pos_weight: 22000.0
+      lbgfs_normal_past: 2
+      lbgfs_shot_path_past: 8
+      shot_path_horizon: 0.5
+      lbfgs:
+        mem_size: 256
+        g_epsilon: 0.0
+        min_step: 0.0
+        delta: 1.0e-2
+        max_iterations: 8000
+    second_stage:
+      # time_weight: 10000.0
+      # moment_weight: 40.0
+      # acc_weight: 10.0
+      # domega_weight: 10.0
+      # collision_weight: 50.0
+      # mani_colli_weight: 5000.0
+      # mani_pos_weight: 50.0
+      time_weight: 100.0
+      moment_weight: 4000.0
+      acc_weight: 1000.0
+      domega_weight: 1000.0
+      collision_weight: 50000.0
+      mani_colli_weight: 5000000.0
+      mani_pos_weight: 50000.0
+      lbfgs:
+        # mem_size: 64
+        mem_size: 256
+        # past: 3
+        past: 5
+        g_epsilon: 0.0
+        min_step: 1.0e-32
+        delta: 1.0e-4
+        max_iterations: 8000
+      alm_param:
+        init_lambda: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        init_rho: [10000.00, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0]
+        rho_max: [1.0e+10, 1.0e+10, 1.0e+10, 1.0e+10, 1.0e+10, 1.0e+10, 1.0e+10, 1.0e+10, 1.0e+10]
+        gamma: [9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0]
+        tolerance: [0.01]
+      alm_data:
+        max_iter: 20
+        epsilon_con: 0.01

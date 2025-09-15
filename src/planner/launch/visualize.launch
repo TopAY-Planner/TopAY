@@ -1,0 +1,13 @@
+<launch>
+
+    <arg name="path"/>
+
+
+    <!-- planner -->
+    <node pkg="planner" type="visualizer" name="visualizer_node" output="screen" required="true">
+        <rosparam command="load" file="$(find planner)/params/visualize.yaml" />
+        <param name="path" value="$(arg path)" />
+    </node>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find fake_moma)/launch/default.rviz" required="true" />
+
+</launch>

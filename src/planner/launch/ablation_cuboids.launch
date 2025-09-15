@@ -1,0 +1,94 @@
+<launch>
+
+    <arg name="map_topic" value="/global_map" />
+    <arg name="odom_topic" value="/moma_odom" />
+    <arg name="cmd_topic" value="/moma_cmd" />
+    <arg name="use_sim" default="true" />
+    <arg name="rviz" default="true" />
+
+    <rosparam command="load" file="$(find planner)/params/agent_ablation_cuboids.yaml" />
+    <rosparam command="load" file="$(find planner)/params/grid_map.yaml" />
+    <rosparam command="load" file="$(find planner)/params/rog_map.yaml" />
+    <rosparam command="load" file="$(find planner)/params/birrts.yaml" />
+    <rosparam command="load" file="$(find planner)/params/topo_prm.yaml" />
+    <rosparam command="load" file="$(find planner)/params/mcrrts.yaml" />
+    <rosparam command="load" file="$(find planner)/params/optimizer.yaml" />
+    <rosparam command="load" file="$(find planner)/params/mpc.yaml" />
+    <rosparam command="load" file="$(find planner)/params/ik.yaml" />
+    <rosparam command="load" file="$(find random_map_generator)/params/map_cuboids.yaml" />
+
+    <!-- simulator -->
+    <node name="interactive_marker_node" pkg="interactive_marker" type="interactive_marker_node" />
+    <node if="$(arg use_sim)" name="fake_moma_node" pkg="fake_moma" type="fake_moma_node" output="screen">
+        <remap from="~global_map" to="$(arg map_topic)"/>
+        <remap from="~state" to="$(arg odom_topic)"/>
+        <remap from="~command" to="$(arg cmd_topic)"/>
+        <param name="~sim/init_x" value="0.0"/>
+        <param name="~sim/init_y" value="0.0"/>
+        <param name="~sim/init_yaw" value="0.0"/>
+        <param name="~sim/lidar_x" value="0.2"/>
+        <param name="~sim/lidar_y" value="0.0"/>
+        <param name="~sim/lidar_z" value="0.05"/>
+    </node>
+
+    <node if="$(arg use_sim)" pkg="local_sensing_node" type="opengl_render_node" name="pcl_render_node" output="screen" 
+        args="map.pcd">
+        <remap from="~global_map" to="$(arg map_topic)"/>
+        <remap from="~odometry" to="/Odometry"/>
+        <remap from="~cloud" to ="/cloud_registered"/>
+        <param name="drone_id" value="0"/>
+        <param name="quadrotor_name" value="quad_0"/>
+        <param name="uav_num" value="1"/>
+        <param name="is_360lidar" value="1"/>
+        <param name="sensing_horizon" value="15.0"/>
+        <param name="sensing_rate" value="10.0"/>
+        <param name="estimation_rate" value="10.0"/>
+        <param name="polar_resolution" value="0.2"/>
+        <param name="yaw_fov" value="360.0"/>
+        <param name="vertical_fov" value="90.0"/>
+        <param name="min_raylength" value="1.0"/>
+        <param name="livox_linestep" value="1.4"/>
+        <param name="curvature_limit" value="100.0"/>
+        <param name="hash_cubesize" value="5.0"/>
+        <param name="use_avia_pattern" value="0"/>
+        <param name="use_vlp32_pattern" value="0"/>
+        <param name="use_minicf_pattern" value="1"/>
+
+        <param name="downsample_res" value="0.1"/>
+
+        <param name="dynobj_enable" value="0"/>
+        <param name="dynobject_size" value="0.8"/>
+        <param name="dynobject_num" value="10"/>
+        <param name="dyn_mode" value="0"/><!-- 0 for a=0, 1 for a=g, 2 for random walk -->
+        <param name="dyn_velocity" value="1.0"/>
+
+        <param name="use_uav_extra_model" value="0"/>
+        <!-- <param name="use_uav_extra_model" value="1"/> -->
+
+        <param name="collisioncheck_enable" value="0"/>
+        <param name="collision_range" value="0.3"/>
+        <param name="output_pcd" value="0"/>
+    </node>
+
+
+    <!-- visulize the real robot -->
+    <node unless="$(arg use_sim)" name="moma_vis_node" pkg="fake_moma" type="moma_vis_node" output="screen">
+        <remap from="~state" to="$(arg odom_topic)"/>
+    </node>
+
+    <node if="$(arg use_sim)" pkg="random_map_generator" type="random_map" name="random_map" output="screen" required="true">
+        <remap from="~global_cloud" to="$(arg map_topic)"/>
+        <remap from="~global_boxes" to="/global_boxes"/>
+    </node>
+
+    <!-- planner -->
+    <node pkg="planner" type="planner_node" name="planner_node" output="screen" required="true">
+        <remap from="~state" to="$(arg odom_topic)"/>
+        <remap from="~cmd" to="$(arg cmd_topic)"/>
+        <remap from="~global_cloud" to="$(arg map_topic)"/>
+    </node>
+
+    <!-- rviz -->
+    <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find fake_moma)/launch/default.rviz" required="true" />
+
+</launch>

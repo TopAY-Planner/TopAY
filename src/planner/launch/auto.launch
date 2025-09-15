@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<launch>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="1"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="2"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="3"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="4"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="5"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="6"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="7"/>
+  </include>
+  <include file="$(find planner)/launch/run_one_stat.xml">
+    <arg name="num" value="8"/>
+  </include>
+</launch>

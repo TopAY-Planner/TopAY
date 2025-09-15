@@ -1,0 +1,19 @@
+planner_node:
+  topo_prm:
+    sample_inflate_x: 1.5
+    # sample_inflate_x: 1.0
+    sample_inflate_y: 4.0
+    # sample_inflate_y: 3.5
+    sample_inflate_z: 1.0
+    # clearance: 0.1
+    clearance: 0.1
+    max_sample_time: 0.01
+    max_sample_num: 5000
+    max_raw_path: 300
+    max_raw_path2: 25
+    short_cut_num: 1
+    reserve_num: 6
+    ratio_to_short: 2.0
+    # ratio_to_short: 5.5
+    parallel_shortcut: true
+    

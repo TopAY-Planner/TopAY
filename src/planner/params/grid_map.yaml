@@ -1,0 +1,11 @@
+planner_node:
+  grid_map:
+    use_rog: false
+    # real case:
+    # map_size_x: 16.0
+    # map_size_y: 8.0
+    # sim case:
+    map_size_x: 20.0
+    map_size_y: 20.0
+    map_size_z: 1.6
+    resolution: 0.1

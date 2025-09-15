@@ -1,0 +1,32 @@
+planner_node:
+  mpc:
+    dt: 0.2
+    predict_steps: 5
+    delay_num_chassis: 0
+    ctrl_freq: 50.0
+    matrix_q: [10.0, 10.0, 100.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]
+    matrix_r: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    matrix_rd: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+  ompc:
+    # ctrl_freq: 100.0
+    ctrl_freq: 50.0
+    du_threshold: 0.001
+    dt: 0.02
+    max_iter: 150
+    predict_steps: 50
+    # predict_steps: 40
+    delay_num_v: 20
+    # delay_num_v: 16
+    delay_num_w: 20
+    # delay_num_w: 16
+    max_omega: 0.9
+    max_domega: 1.0
+    max_speed: 1.0
+    min_speed: -1.0
+    max_accel: 0.8
+    # x, y, yaw
+    # 1.0m/s
+    matrix_q: [10.0, 10.0, 3.0]
+    matrix_r: [0.01, 0.01]
+    matrix_rd: [15.0, 1.5]
+    model_type: 1

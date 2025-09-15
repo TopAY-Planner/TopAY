@@ -1,0 +1,96 @@
+fsm:
+  planning_horizon: 1000.0
+mm:
+  mobile_base_dof            : 2    # degree of freedom of the mobile base
+  mobile_base_length         : 0.70  # length of the mobile base
+  mobile_base_width          : 0.60  # width of the mobile base
+  mobile_base_height         : 0.20 # height of the mobile base
+  mobile_base_check_radius   : 0.15 # radius of the circle used to check the collision of the mobile base
+
+  # mobile_base_length         : 0.5  # length of the mobile base
+  # mobile_base_width          : 0.5  # width of the mobile base
+  # mobile_base_height         : 0.23 # height of the mobile base
+  # mobile_base_check_radius   : 0.17 # radius of the circle used to check the collision of the mobile base
+  
+  mobile_base_non_singul_vel : 0.05 # minimum linear velocity to avoid singularity
+  mobile_base_wheel_base     : 1.60 # please modify the value of ${mobile_base_wheel_base} in poly_traj_utils.hpp if you change this value
+  mobile_base_wheel_radius   : 0.10 # please modify the value of ${mobile_base_wheel_radius} in poly_traj_utils.hpp if you change this value
+  mobile_base_max_wheel_omega: 10.0 # maximum rotation speed of the wheel
+  mobile_base_max_wheel_alpha: 8.00 # maximum rotation acceleration of the wheel
+
+  # mobile_base_dof            : 2    # degree of freedom of the mobile base
+  # mobile_base_length         : 0.685  # length of the mobile base
+  # mobile_base_width          : 0.57  # width of the mobile base
+  # mobile_base_height         : 0.155 # height of the mobile base
+  # mobile_base_wheel_base     : 0.37 # please modify the value of ${mobile_base_wheel_base} in poly_traj_utils.hpp if you change this value
+  # mobile_base_wheel_radius   : 0.07 # please modify the value of ${mobile_base_wheel_radius} in poly_traj_utils.hpp if you change this value
+  # mobile_base_non_singul_vel : 0.05 # minimum linear velocity to avoid singularity
+  # mobile_base_max_wheel_omega: 10.0 # maximum rotation speed of the wheel
+  # mobile_base_max_wheel_alpha: 20.0 # maximum rotation acceleration of the wheel
+  # mobile_base_check_radius   : 0.10 # radius of the circle used to check the collision of the mobile base
+
+  # degree of freedom of the manipulator, don't change since dof is hard-coded to optimization-related code
+  manipulator_dof    : 7    
+  manipulator_max_vel: 2.35 # maximum velocity of the manipulator
+  manipulator_max_acc: 6.28 # maximum acceleration of the manipulator
+
+  base_mani_fixed_joint_xyz_ypr: [0.0, 0.115, 0.016, 0.03, -0.02, 0.23, 0.0] # the position and orientation of the manipulator relative to the base
+
+  # param for huawei_arm
+  use_huawei_arm        : true
+  
+  manipulator_thickness: 0.01                                                   # This parameter doesn't matter for HuaweiArm
+  manipulator_config   : [0.176,   0.417,  0.07,   0.385,  0.0,    0.20, 0.20]  # These parameters don't matter for HuaweiArm
+  manipulator_min_pos  : [-3.1,   -2.26,  -3.1, -2.355, -3.1, -2.23,  -6.28]    # min joint position for HuaweiArm, copied from moma_param.h
+  manipulator_max_pos  : [3.1,    2.26,   3.1,  2.355,  3.1,  2.23,   6.28]     # max joint position for HuaweiArm, copied from moma_param.h
+
+search:
+  oneshot_check_len: 0.02  # Interval for checking whether the RS/Debain curve obtained by oneshot collides
+  oneshot_range    : 1.0  # oneshot range
+
+  traj_forward_penalty     : 1.0 # Forward penalty coefficient
+  traj_back_penalty        : 3.0 # Backward penalty coefficient
+  traj_gear_switch_penalty : 20.0  # Penalty for switching between forward and reverse gears
+  traj_steer_penalty       : 5.0  # Steering penalty
+  traj_steer_change_penalty: 2.0  # Penalty for steering change
+
+  try_astar_times: 1         # Use whole-body RRT after try_astar_times consecutive planning failures
+
+  yaw_resolution    : 3.15   # yaw sampling interval
+  max_arc           : 0.4    # Maximum forward search displacement
+  min_turning_radius: 0.2    # Minimum turning radius
+  lambda_heu        : 1      # Coefficient for greedy search, multiplied by h
+  max_seach_time    : 0.1   # Maximum time for Hybrid A* search
+  check_num         : 16     # Used to check collision when Hybrid A* expands the state
+  dist_resolution   : 0.8    # Expected distance between path points given to the backend
+  sample_time       : 0.1    # Sampling time when given to the backend
+  curvatureDisCoe   : 0.4    # Angle coefficient for time allocation
+  allocate_num      : 100000 # Number of allocated nodes (maximum number of nodes visited)
+
+  # manipulator sample
+  goal_rate: 0.4             # Probability for RRT to sample the end point
+  max_loop_num: 10000        # Maximum number of RRT sampling times
+  max_sample_time: 0.1       # Maximum time for whole-body RRT
+  max_mani_search_time: 0.1  # Maximum time for manipulator search
+
+optimization:
+  weight_base_obstacle          : 10000.0  # Weight for base obstacle
+  weight_base_feasibility       : 10.0    # Weight for base feasibility
+  # weight_manipulator_obstacle   : 0.0   # Weight for manipulator obstacle
+  weight_manipulator_obstacle   : 1000.0  # Weight for manipulator obstacle
+  # weight_manipulator_self       : 0.0   # Weight for manipulator self
+  weight_manipulator_self       : 100.0   # Weight for manipulator self
+  # weight_manipulator_feasibility: 0.0   # Weight for manipulator feasibility
+  weight_manipulator_feasibility: 10.0    # Weight for manipulator feasibility
+  weight_time                   : 1.0       # Weight for time
+
+  dense_sample_resolution: 20             # Resolution for dense sampling
+  ground_safe_dis        : 0.03           # Safe distance from the ground
+  safe_margin            : 0.10           # General safe margin
+  safe_margin_mani       : 0.10           # Safe margin for the manipulator
+  self_safe_margin       : 0.10           # Safe margin for self
+  ground_safe_margin     : 0.03           # Safe margin from the ground
+
+  feas_tol_percent    : 0.05              # Feasibility tolerance percentage
+  mobile_base_opt_gear: true             # Whether to optimize the gear
+  constrain_points_perPiece: 16           # Constraint points per piece
