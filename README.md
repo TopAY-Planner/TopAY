@@ -39,7 +39,7 @@ docker start topay
 
 4. enter the container's bash shell with the following command:
 ```
-docker exec -it nmoma_planner bash
+docker exec -it topay bash
 # exit container with ctrl+d
 ```
 
